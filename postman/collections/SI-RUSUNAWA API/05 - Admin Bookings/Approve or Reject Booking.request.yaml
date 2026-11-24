@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base_url}}/api/admin/bookings/1/status"
+method: PATCH
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: '{"status":"approved","admin_notes":"Dokumen telah diperiksa."}'
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 3000

@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base_url}}/api/admin/facilities/1"
+method: PATCH
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: '{"facility_name":"AC Baru","description":"Pendingin ruangan"}'
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 2000
