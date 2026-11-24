@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
+
+// Rute autentikasi tanpa login
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+// Rute yang membutuhkan login
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Rute mahasiswa
+    Route::post('/bookings', [BookingController::class, 'store']);
+
+    Route::get('/my-bookings', [BookingController::class, 'myBookings']);
+
+    // Rute khusus admin
+    Route::middleware('admin')->prefix('admin')->group(function () {
+
+        Route::get('/bookings', [BookingController::class, 'index']);
+
+        Route::patch('/bookings/{id}/status', [
+            BookingController::class,
+            'updateStatus'
+        ]);
+
+    });
+});
