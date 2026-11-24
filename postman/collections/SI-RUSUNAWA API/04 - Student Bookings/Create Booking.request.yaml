@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base_url}}/api/bookings"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: '{"room_id":1,"check_in_date":"2026-12-01","notes":"Permohonan hunian mahasiswa"}'
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 1000

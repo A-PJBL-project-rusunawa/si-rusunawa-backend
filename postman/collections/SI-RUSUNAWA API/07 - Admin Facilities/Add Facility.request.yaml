@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base_url}}/api/admin/rooms/1/facilities"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: '{"facility_name":"AC","description":"Pendingin ruangan"}'
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 1000

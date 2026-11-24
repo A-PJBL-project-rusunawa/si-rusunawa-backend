@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: fc20f5b7-a123-4776-8078-7bcce0f2ecb2
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/SI-RUSUNAWA API: 02ee82e8-ff26-4bec-805e-9e816aee6f54
+
+localResources:
+  collections:
+    - ../docs/postman/SI-RUSUNAWA-API.postman_collection.json

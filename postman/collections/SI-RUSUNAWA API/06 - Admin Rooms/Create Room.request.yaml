@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base_url}}/api/admin/rooms"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: '{"room_number":"A-101","building":"Gedung A","type":"Standard","capacity":2,"price":500000,"description":"Kamar mahasiswa","status":"available"}'
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+order: 1000

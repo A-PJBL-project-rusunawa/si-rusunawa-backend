@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{base_url}}/api/login"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: json
+  content: '{"email":"mahasiswa@example.com","password":"Password123"}'
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: |-
+      if (pm.response.code >= 200 && pm.response.code < 300) {
+          const data = pm.response.json();
+          if (data.token) {
+              pm.collectionVariables.set('token', data.token);
+              console.log('Bearer token berhasil disimpan.');
+          }
+      }
+    language: text/javascript
+order: 2000

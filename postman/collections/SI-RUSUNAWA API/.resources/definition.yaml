@@ -1,0 +1,11 @@
+$kind: collection
+description: Postman Collection untuk pengujian REST API Sistem Informasi Rumah Susun Mahasiswa (SI-RUSUNAWA). Menggunakan Laravel Sanctum Bearer Token.
+variables:
+  base_url: http://127.0.0.1:8000
+  token: ""
+auth:
+  - id: f8767ed6-2ac1-4e93-ab3a-ffeb270cba9e
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{token}}"

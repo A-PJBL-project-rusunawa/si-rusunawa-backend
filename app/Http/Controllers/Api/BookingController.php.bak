@@ -1,0 +1,101 @@
+<?php
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Models\Room;
+use Illuminate\Http\Request;
+
+class BookingController extends Controller
+{
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'check_in_date' => 'nullable|date|after_or_equal:today',
+            'notes' => 'nullable|string',
+        ]);
+
+        $user = $request->user();
+        $room = Room::findOrFail($validated['room_id']);
+
+        if ($room->status !== 'available') {
+            return response()->json(['message' => 'Kamar tidak tersedia.'], 422);
+        }
+
+        $booking = Booking::create([
+            'user_id' => $user->id,
+            'room_id' => $room->id,
+            'nim' => $user->nim,
+            'phone' => $user->phone,
+            'booking_date' => now()->toDateString(),
+            'check_in_date' => $validated['check_in_date'] ?? null,
+            'notes' => $validated['notes'] ?? null,
+            'status' => 'pending',
+        ]);
+
+        return response()->json([
+            'message' => 'Pemesanan berhasil diajukan.',
+            'data' => $booking,
+        ], 201);
+    }
+
+    public function myBookings(Request $request)
+    {
+        $bookings = Booking::with('room')
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->get();
+
+        return response()->json(['data' => $bookings]);
+    }
+
+    public function index(Request $request)
+    {
+        $bookings = Booking::with(['user', 'room'])->latest()->get();
+
+        return response()->json(['data' => $bookings]);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:pending,approved,rejected',
+            'admin_notes' => 'nullable|string',
+        ]);
+
+        $booking = Booking::findOrFail($id);
+
+        if ($booking->status !== 'pending') {
+            return response()->json([
+                'message' => 'Pemesanan ini sudah diproses.',
+            ], 422);
+        }
+
+        $room = null;
+
+        if ($validated['status'] === 'approved') {
+            $room = Room::findOrFail($booking->room_id);
+
+            if ($room->status !== 'available') {
+                return response()->json([
+                    'message' => 'Kamar sudah tidak tersedia.',
+                ], 422);
+            }
+        }
+
+        $booking->update([
+            'status' => $validated['status'],
+            'admin_notes' => $validated['admin_notes'] ?? null,
+        ]);
+
+        if ($validated['status'] === 'approved') {
+            $room->update(['status' => 'occupied']);
+        }
+
+        return response()->json([
+            'message' => 'Status pemesanan berhasil diperbarui.',
+            'data' => $booking,
+        ]);
+    }
+}
