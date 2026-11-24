@@ -1,0 +1,46 @@
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/fonts-manifest.dev.json
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+_ide_helper.php
+Homestead.json
+Homestead.yaml
+Thumbs.db
+# Local SQLite databases and backups
+/database/*.sqlite
+/database/*.sqlite3
+/backups/*.sqlite
+/backups/*.sqlite3
+
+# Local audit backups
+/audit-backup/
+# SI-RUSUNAWA local backups
+/audit-backup/
+/backups/
+
+# Local SQLite databases
+/database/*.sqlite
+/database/*.sqlite3
+/database/*.sqlite*
+
+# Laravel logs
+/storage/logs/*.log
